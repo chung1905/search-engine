@@ -17,7 +17,8 @@ class WikipediaCom(scrapy.Spider):
 
     def parse(self, response):
         yield {
-            'title': response.css('#firstHeading::text').get(),
+            'url': response.url,
+            'title': response.css('#mw-content-text div').get(),
             'content': response.css('#mw-content-text div').get(),
         }
         for a in response.css("#mw-content-text a"):
