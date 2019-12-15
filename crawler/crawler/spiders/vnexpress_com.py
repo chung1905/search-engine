@@ -1,18 +1,20 @@
+# -*- coding: utf-8 -*-
 import scrapy
 from ..items import CrawlerItem
 
 
-class VnexpressSpider(scrapy.Spider):
-    name = "dantri"
-    page_number = 1
-    start_urls = ["https://dantri.com.vn/xa-hoi.html"]
+class VnexpressComSpider(scrapy.Spider):
+    name = 'vnexpress_com'
+    allowed_domains = ['vnexpress.net']
+    page_number = 2
+    start_urls = ['http://vnexpress.net/thoi-su']
 
     def parse(self, response):
 
-        all_div = response.css("mt2 newszone")
+        all_div_news = response.css("section.sidebar_1 article.list_news")
 
-        for div in all_div:
-            title = div.css("div.mt3.clearfix div.mr1 h2 a:text")[0].extract()
+        for div in all_div_news:
+            title = div.css("h4.title_news a::text")[0].extract()
             href = div.xpath('child::h4/child::a[1]').xpath('@href')[0].extract()
             sub_content = div.css("p.description a::text")[0].extract()
             if href:
@@ -21,7 +23,7 @@ class VnexpressSpider(scrapy.Spider):
                 request.meta['sub_content'] = sub_content
                 yield request
 
-        next_page = "https://vnexpress.net/the-thao/p" + str(VnexpressSpider.page_number)
+        next_page = "https://vnexpress.net/thoi-su/p" + str(VnexpressSpider.page_number)
         if VnexpressSpider.page_number <= 1600:
             VnexpressSpider.page_number += 1
             yield response.follow(next_page, callback=self.parse)
@@ -39,3 +41,4 @@ class VnexpressSpider(scrapy.Spider):
         items['sub_content'] = sub_content
         items['raw_content'] = str
         yield items
+
