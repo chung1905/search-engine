@@ -31,10 +31,20 @@ make npm_install npm_start
 6. Go to http://localhost:3000/ and search
 
 ## How to run
-1. Start solr and frontend server:
+1. Start solr, mongodb and frontend server:
 ```
-make solr_start npm_start
+make mongo_start solr_start solr_core_create solr_import npm_start
+```
+
+## Crawl during run
+1. Crawl:
+```
+make crawl
+```
+2. Import to solr
+```
+make solr_reimport
 ```
 
 ## Known Issues:
-1. Cannot crawl after setup
+
