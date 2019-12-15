@@ -29,7 +29,7 @@ solr_import:
 	$(DOCKER_SOLR_POST) -c $(SOLR_CORE_NAME) /opt/crawler/
 solr_core_create:
 	$(DOCKER_SOLR_BIN) create_core -c $(SOLR_CORE_NAME)
-solr_ore_delete:
+solr_core_delete:
 	$(DOCKER_SOLR_BIN) delete -c $(SOLR_CORE_NAME)
 
 DOCKER_MONGO_NAME = search-mongo
