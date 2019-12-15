@@ -37,12 +37,12 @@ class VnexpressComSpider(scrapy.Spider):
                 request.meta['sub_content'] = sub_content
                 yield request
 
-        next_page = VnexpressSpider.start_urls[VnexpressSpider.number_url]+"/p" + str(VnexpressSpider.page_number)
-        if VnexpressSpider.page_number <= 100:
-            VnexpressSpider.page_number += 1
+        next_page = VnexpressComSpider.start_urls[VnexpressComSpider.number_url]+"/p" + str(VnexpressComSpider.page_number)
+        if VnexpressComSpider.page_number <= 1000:
+            VnexpressComSpider.page_number += 1
             yield response.follow(next_page, callback=self.parse)
         else:
-            VnexpressSpider.number_url += 1
+            VnexpressComSpider.number_url += 1
 
     def raw_content_parse(self, response):
         title = response.meta.get('title')
