@@ -13,6 +13,12 @@ crawl_to_json:
 mongo_start: mongodb_start mongo_express_start
 mongo_stop: mongo_express_stop mongodb_stop
 
+npm_install:
+	cd frontend && npm i
+
+npm_start:
+	cd frontend && npm start
+
 DOCKER_SOLR_NAME = search-solr
 DOCKER_SOLR_BIN = docker exec -it $(DOCKER_SOLR_NAME) /opt/solr/bin/solr
 DOCKER_SOLR_POST = docker exec -it $(DOCKER_SOLR_NAME) /opt/solr/bin/post
