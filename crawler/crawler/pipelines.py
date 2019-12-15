@@ -6,8 +6,7 @@
 # See: https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 
 import pymongo
-
-from crawler.spiders.wikipedia_com import WikipediaCom
+from scrapy.exceptions import DropItem
 
 
 class CrawlerPipeline(object):
@@ -33,7 +32,7 @@ class CrawlerPipeline(object):
 
     def process_item(self, item, spider):
         cur = self.db[self.collection_name].find_one({"url": item["url"]})
-        if cur is None:
-            self.db[self.collection_name].insert_one(dict(item))
-
+        if cur is not None:
+            raise DropItem('Skip. Item existed.')
+        self.db[self.collection_name].insert_one(dict(item))
         return item

@@ -6,11 +6,11 @@
 4. [python](https://www.python.org/) and [pip](https://pypi.org/project/pip/)
 
 ## How to setup for the first time
-1. ~~Mongodb~~:
+1. Mongodb
 ```
 make mongo_start
 ```
-~~Mongodb interface at: http://localhost:8081/~~
+Mongodb interface at: http://localhost:8081/
 
 2. Install scrapy:
 ```

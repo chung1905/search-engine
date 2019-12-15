@@ -5,13 +5,14 @@ SPIDER = wikipedia_com
 crawl:
 	cd ./crawler && $(SCRAPY) crawl $(SPIDER)
 
-CRAWL_OUTPUT = ./crawler/storage/$(SPIDER).json
+CRAWL_OUTPUT = ./crawler/storage/$(SPIDER).jsonl
 crawl_to_json:
-	rm -f ./crawler/$(CRAWL_OUTPUT)
-	cd ./crawler && $(SCRAPY) crawl $(SPIDER) -o $(CRAWL_OUTPUT)
+	cd ./crawler && $(SCRAPY) crawl $(SPIDER) -o $(CRAWL_OUTPUT) -t jsonlines
 
 mongo_start: mongodb_start mongo_express_start
 mongo_stop: mongo_express_stop mongodb_stop
+mongo_dump:
+	curl "http://localhost:8081/db/raw_search/export/scrapy_items?key=&value=&type=&query=&projection=" -o ./crawler/$(CRAWL_OUTPUT)
 
 npm_install:
 	cd frontend && npm i
