@@ -6,8 +6,22 @@ from ..items import CrawlerItem
 class VnexpressComSpider(scrapy.Spider):
     name = 'vnexpress_com'
     allowed_domains = ['vnexpress.net']
-    page_number = 2
-    start_urls = ['http://vnexpress.net/thoi-su']
+    page_number = 1
+    number_url = 0
+    start_urls = ["https://vnexpress.net/the-thao",
+                  "https://vnexpress.net/the-gioi",
+                  "https://vnexpress.net/kinh-doanh",
+                  "https://vnexpress.net/giai-tri",
+                  "https://vnexpress.net/phap-luat",
+                  "https://vnexpress.net/giao-duc",
+                  "https://vnexpress.net/suc-khoe",
+                  "https://vnexpress.net/doi-song",
+                  "https://vnexpress.net/du-lich",
+                  "https://vnexpress.net/khoa-hoc",
+                  "https://vnexpress.net/so-hoa",
+                  "https://vnexpress.net/oto-xe-may",
+                  "https://vnexpress.net/y-kien",
+                  "https://vnexpress.net/tam-su"]
 
     def parse(self, response):
 
@@ -23,10 +37,12 @@ class VnexpressComSpider(scrapy.Spider):
                 request.meta['sub_content'] = sub_content
                 yield request
 
-        next_page = "https://vnexpress.net/thoi-su/p" + str(VnexpressSpider.page_number)
-        if VnexpressSpider.page_number <= 1600:
+        next_page = VnexpressSpider.start_urls[VnexpressSpider.number_url]+"/p" + str(VnexpressSpider.page_number)
+        if VnexpressSpider.page_number <= 100:
             VnexpressSpider.page_number += 1
             yield response.follow(next_page, callback=self.parse)
+        else:
+            VnexpressSpider.number_url += 1
 
     def raw_content_parse(self, response):
         title = response.meta.get('title')
