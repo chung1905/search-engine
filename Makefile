@@ -13,6 +13,25 @@ crawl_to_json:
 mongo_start: mongodb_start mongo_express_start
 mongo_stop: mongo_express_stop mongodb_stop
 
+DOCKER_SOLR_NAME = search-solr
+DOCKER_SOLR_BIN = docker exec -it $(DOCKER_SOLR_NAME) /opt/solr/bin/solr
+DOCKER_SOLR_POST = docker exec -it $(DOCKER_SOLR_NAME) /opt/solr/bin/post
+SOLR_CORE_NAME = solr_first_core
+solr_start: network_create
+	docker run --rm -d --name $(DOCKER_SOLR_NAME) \
+	-v `pwd`/crawler/crawler/storage:/opt/crawler \
+	--network=$(NETWORK_NAME) \
+	-p 8983:8983 \
+	solr:8
+solr_stop:
+	docker stop $(DOCKER_SOLR_NAME)
+solr_import:
+	$(DOCKER_SOLR_POST) -c $(SOLR_CORE_NAME) /opt/crawler/
+solr_core_create:
+	$(DOCKER_SOLR_BIN) create_core -c $(SOLR_CORE_NAME)
+solr_ore_delete:
+	$(DOCKER_SOLR_BIN) delete -c $(SOLR_CORE_NAME)
+
 DOCKER_MONGO_NAME = search-mongo
 mongodb_start: network_create
 	docker run --rm -d --name $(DOCKER_MONGO_NAME) \
