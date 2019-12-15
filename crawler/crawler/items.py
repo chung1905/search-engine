@@ -12,6 +12,7 @@ class CrawlerItem(scrapy.Item):
     # define the fields for your item here like:
     url = scrapy.Field()
     title = scrapy.Field()
+    overview = scrapy.Field()
     content = scrapy.Field()
     last_updated = scrapy.Field(serializer=str)
     pass

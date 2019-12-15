@@ -25,7 +25,7 @@ app.get('/result',(req,res)=>{
 
     let searchObject = {
         "query": "content:" + q,
-        "limit": 10,
+        "limit": 50,
     }
 
     request({

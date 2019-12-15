@@ -2,8 +2,7 @@ SCRAPY = ~/.local/bin/scrapy
 
 SPIDER = wikipedia_com
 
-crawl:
-	cd ./crawler && $(SCRAPY) crawl $(SPIDER)
+crawl: crawl_to_json
 
 CRAWL_OUTPUT = ./crawler/storage/$(SPIDER).jsonl
 crawl_to_json:
@@ -38,6 +37,7 @@ solr_core_create:
 	$(DOCKER_SOLR_BIN) create_core -c $(SOLR_CORE_NAME)
 solr_core_delete:
 	$(DOCKER_SOLR_BIN) delete -c $(SOLR_CORE_NAME)
+solr_reimport: solr_core_delete solr_core_create solr_import
 
 DOCKER_MONGO_NAME = search-mongo
 mongodb_start: network_create
