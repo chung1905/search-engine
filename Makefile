@@ -15,7 +15,9 @@ mongo_stop: mongo_express_stop mongodb_stop
 
 DOCKER_MONGO_NAME = search-mongo
 mongodb_start: network_create
-	docker run --rm -d --name $(DOCKER_MONGO_NAME) --network=$(NETWORK_NAME) --ip=10.3.0.6 \
+	docker run --rm -d --name $(DOCKER_MONGO_NAME) \
+	--network=$(NETWORK_NAME) --ip=10.3.0.6 \
+	-v `pwd`/mongo/data:/data/db \
 	mongo:4.2
 mongodb_stop:
 	docker stop $(DOCKER_MONGO_NAME)
