@@ -1,5 +1,5 @@
-# SCRAPY = ~/.local/bin/scrapy
-SCRAPY = /usr/local/bin/scrapy
+SCRAPY = ~/.local/bin/scrapy
+# SCRAPY = /usr/local/bin/scrapy
 
 SPIDER = wikipedia_com
 
@@ -42,10 +42,10 @@ solr_reimport: solr_core_delete solr_core_create solr_import
 
 DOCKER_MONGO_NAME = search-mongo
 mongodb_start: network_create
-	docker run --rm -d --name $(DOCKER_MONGO_NAME) \
+	docker run --rm -d -p 27017:27017 --name $(DOCKER_MONGO_NAME) \
 	--network=$(NETWORK_NAME) --ip=10.3.0.6 \
 	-v `pwd`/mongo/data:/data/db \
-	mongo:4.2
+	mongo:4.2 
 mongodb_stop:
 	docker stop $(DOCKER_MONGO_NAME)
 

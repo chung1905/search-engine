@@ -32,7 +32,7 @@ input{
 
 .submit {
     height: 40px;
-    font-size: 50px;
+    font-size: 1.2em;
 }
 
 input[type="submit" i] {
@@ -158,4 +158,12 @@ a{
 
 a:link {
     cursor: pointer;
+}
+
+b {
+    font-weight: bold;
+}
+
+.result-snippet {
+    font-size: 77.4%;
 }

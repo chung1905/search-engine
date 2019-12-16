@@ -44,11 +44,24 @@ app.get('/result',(req,res)=>{
             return;
         }
         console.log(body.response);
-        res.render('result', {
-            title: 'Query for: ' + q,
-            count: body.response.numFound,
-            docs: body.response.docs,
-        });
+        if(body.response.numFound > 0 ){
+            res.render('result', {
+                title: 'Query for: ' + q,
+                count: body.response.numFound,
+                docs: body.response.docs,
+            });
+        }else{
+            res.render('result', {
+                title: 'Query for: ' + q,
+                count: body.response.numFound,
+                docs:[{
+                    url:[],
+                    title:["Not '"+q+"' found in any documents."],
+                    overview:[],
+                    content:[]
+                }],
+            });
+        }
     });
 });
 

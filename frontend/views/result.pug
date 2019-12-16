@@ -9,9 +9,16 @@ block body
             p= 'Found ' + count + ' result(s)'
     table(border='0')
       tbody
-        tr
-          each doc in docs
+        each doc in docs
+          tr
             td
               a(href=doc.url[0])
-                p= doc.title
-              p= doc.overview
+                b= doc.title
+                br
+            td
+          tr
+            td(class='result-snippet')
+              b= doc.overview
+              br
+              br
+              br
