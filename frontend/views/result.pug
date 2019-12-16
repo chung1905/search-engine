@@ -2,23 +2,23 @@ extends abstract.pug
 
 block body
     include components/result_search.pug
-    table(border='0')
+    table(border='0' class='count-result')
       tbody
         tr
           td
             p= 'Found ' + count + ' result(s)'
-    table(border='0')
+    table(border='0' class='list-result')
       tbody
         each doc in docs
-          tr
-            td
-              a(href=doc.url[0])
-                b= doc.title
+          if doc
+            tr
+              td
+                a(href=doc.url[0])
+                  b= doc.title
+                  br
+              td
+            tr
+              td(class='result-snippet')
+                p= doc.overview
                 br
-            td
-          tr
-            td(class='result-snippet')
-              b= doc.overview
-              br
-              br
-              br
+                hr

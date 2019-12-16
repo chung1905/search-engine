@@ -43,7 +43,11 @@ app.get('/result',(req,res)=>{
             });
             return;
         }
-        console.log(body.response);
+        body.response.docs.forEach(function(value,index){
+            if(/^\s+$/.test(value.overview)){
+                delete body.response.docs[index]
+            }
+        })
         if(body.response.numFound > 0 ){
             res.render('result', {
                 title: 'Query for: ' + q,

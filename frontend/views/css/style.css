@@ -167,3 +167,11 @@ b {
 .result-snippet {
     font-size: 77.4%;
 }
+
+.count-result{
+    font-size: 1.2em;
+}
+
+.list-result{
+    font-size: 1.2em;
+}
