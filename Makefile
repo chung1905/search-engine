@@ -1,4 +1,5 @@
-SCRAPY = ~/.local/bin/scrapy
+# SCRAPY = ~/.local/bin/scrapy
+SCRAPY = /usr/local/bin/scrapy
 
 SPIDER = wikipedia_com
 

@@ -1,0 +1,76 @@
+input{
+	-webkit-writing-mode: horizontal-tb !important;
+    text-rendering: auto;
+    color: initial;
+    letter-spacing: normal;
+    word-spacing: normal;
+    text-transform: none;
+    text-indent: 0px;
+    text-shadow: none;
+    display: inline-block;
+    text-align: start;
+    -webkit-appearance: textfield;
+    background-color: white;
+    -webkit-rtl-ordering: logical;
+    cursor: text;
+    margin: 0em;
+    font: 400 11px system-ui;
+    padding: 1px;
+    border-width: 2px;
+    border-style: inset;
+    border-color: initial;
+    border-image: initial;
+}
+
+.submit {
+    height: 40px;
+    font-size: 50px;
+}
+
+input[type="submit" i] {
+    -webkit-appearance: push-button;
+    user-select: none;
+    white-space: pre;
+    align-items: flex-start;
+    text-align: center;
+    cursor: pointer;
+    color: buttontext;
+    background-color: buttonface;
+    box-sizing: border-box;
+    padding: 1px 7px 2px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgb(216, 216, 216) rgb(209, 209, 209) rgb(186, 186, 186);
+    border-image: initial;
+    margin-left: 10px;
+}
+
+.header {
+    font-size: 32px;
+    font-weight: bold;
+    color: #dc5e47;
+}
+
+#lite_wrapper {
+    position: relative;
+    top: 25%;
+}
+
+center {
+    display: block;
+    text-align: -webkit-center;
+}
+
+#search-input{
+	border-color: #dc5e47;
+    border-style: solid solid solid solid;
+    border-width: 1px 1px 1px 1px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    font-size: 20px;
+    padding: 5px 6px;
+    text-align: left;
+    width: 60%;
+    max-width: 600px;
+    height: 45px;
+}
