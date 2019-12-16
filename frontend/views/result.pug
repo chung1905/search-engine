@@ -1,10 +1,17 @@
 extends abstract.pug
 
 block body
-    include components/search_input.pug
-    p= 'Found ' + count + ' result(s)'
-    ul
-      each doc in docs
-        a(href=doc.url[0])
-          li= doc.title
-        p= doc.overview
+    include components/result_search.pug
+    table(border='0')
+      tbody
+        tr
+          td
+            p= 'Found ' + count + ' result(s)'
+    table(border='0')
+      tbody
+        tr
+          each doc in docs
+            td
+              a(href=doc.url[0])
+                p= doc.title
+              p= doc.overview

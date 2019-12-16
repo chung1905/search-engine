@@ -1,3 +1,11 @@
+body {
+    padding-left: 20px;
+    width: 90%;
+    margin-top: 0;
+    display: block;
+    margin: 8px;
+}
+
 input{
 	-webkit-writing-mode: horizontal-tb !important;
     text-rendering: auto;
@@ -141,4 +149,13 @@ th, td {
 td {
     display: table-cell;
     vertical-align: inherit;
+}
+
+a{
+    text-decoration: none;
+    color: #dc5e47
+}
+
+a:link {
+    cursor: pointer;
 }
