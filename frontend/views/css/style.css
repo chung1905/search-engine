@@ -74,3 +74,71 @@ center {
     max-width: 600px;
     height: 45px;
 }
+
+.extra {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    height: 1.3em;
+}
+
+p {
+    display: block;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+}
+
+.header-result {
+    font-size: 32px;
+    font-weight: bold;
+    color: #dc5e47;
+    height: 32px;
+    line-height: 32px;
+}
+
+div {
+    display: block;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+table[Attributes Style] {
+    border-top-width: 0px;
+    border-right-width: 0px;
+    border-bottom-width: 0px;
+    border-left-width: 0px;
+}
+
+table {
+    display: table;
+    border-collapse: separate;
+    border-spacing: 2px;
+    border-color: grey;
+}
+
+tbody {
+    display: table-row-group;
+    vertical-align: middle;
+    border-color: inherit;
+}
+
+tr {
+    display: table-row;
+    vertical-align: inherit;
+    border-color: inherit;
+}
+
+th, td {
+    margin: 0;
+    padding: 0;
+    font-size: 107.1%;
+}
+
+td {
+    display: table-cell;
+    vertical-align: inherit;
+}

@@ -22,6 +22,7 @@ app.get('/result',(req,res)=>{
     const solrUrl = 'http://localhost:8983/solr/' + coreName + '/select?q=';
 
     const q = req.query.q;
+    console.log(req.query);
 
     let searchObject = {
         "query": "content:" + q,
@@ -34,6 +35,12 @@ app.get('/result',(req,res)=>{
         json: searchObject,
     },function(error, response, body) {
         if (error || response.statusCode !== 200) {
+            res.render('error', {
+                title: 'Query for: ' + q,
+                count: 0,
+                error:"Not '"+q+"' found in any documents.",
+
+            });
             return;
         }
         console.log(body.response);
