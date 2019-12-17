@@ -1,7 +1,14 @@
 extends abstract.pug
 
 block body
-    include components/result_search.pug
+  p(class='extra')
+  div(class='header-result')
+    a(href="/") Wiki Search
+  p(class='extra')
+  form(action='result',method='GET')
+    input(type='text', size=40, name='q', value=`${query}`, id='search-input')
+    input(class='submit' type='submit' value='Search')
+
     table(border='0' class='count-result')
       tbody
         tr

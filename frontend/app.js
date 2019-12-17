@@ -35,10 +35,16 @@ app.get('/result',(req,res)=>{
         json: searchObject,
     },function(error, response, body) {
         if (error || response.statusCode !== 200) {
-            res.render('error', {
+            res.render('result', {
+                query: q,
                 title: 'Query for: ' + q,
                 count: 0,
-                error:"Not '"+q+"' found in any documents.",
+                docs:[{
+                    url:[],
+                    title:["Not '"+q+"' found in any documents."],
+                    overview:[],
+                    content:[]
+                }],
 
             });
             return;
@@ -50,12 +56,14 @@ app.get('/result',(req,res)=>{
         })
         if(body.response.numFound > 0 ){
             res.render('result', {
+                query: q,
                 title: 'Query for: ' + q,
                 count: body.response.numFound,
                 docs: body.response.docs,
             });
         }else{
             res.render('result', {
+                query: q,
                 title: 'Query for: ' + q,
                 count: body.response.numFound,
                 docs:[{
