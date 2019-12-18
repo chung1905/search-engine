@@ -114,13 +114,6 @@ table {
     border-spacing: 0;
 }
 
-table[Attributes Style] {
-    border-top-width: 0px;
-    border-right-width: 0px;
-    border-bottom-width: 0px;
-    border-left-width: 0px;
-}
-
 table {
     display: table;
     border-collapse: separate;
@@ -165,6 +158,11 @@ b {
 }
 
 .result-snippet {
+    font-size: 77.4%;
+}
+
+.result-url {
+    color: #662200;
     font-size: 77.4%;
 }
 

@@ -26,6 +26,10 @@ block body
               td
             tr
               td(class='result-snippet')
-                p= doc.overview
-                br
+                p
+                  | !{doc.highlight}
+            tr
+              td(class='result-url')
+                span= doc.url
                 hr
+

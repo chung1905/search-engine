@@ -1,9 +1,9 @@
+"use strict";
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const request = require('request');
-const path = require('path');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
@@ -17,72 +17,77 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
-app.get('/result',(req,res)=>{
+app.get('/result', (req, res) => {
     const coreName = 'solr_first_core';
-    const solrUrl = 'http://localhost:8983/solr/' + coreName + '/select?q=';
+    let solrUrl = 'http://localhost:8983/solr/' + coreName + '/select?';
 
     const q = req.query.q;
     console.log(req.query);
 
-    let searchObject = {
-        "query": "content:" + q,
-        "limit": 50,
-    }
+    // Search in content field
+    solrUrl += "q=content:" + q;
+
+    // Highlighting result
+    solrUrl += "&hl=on";
+    solrUrl += "&hl.fl=content";
+    solrUrl += "&hl.requireFieldMatch=true";
+    solrUrl += "&hl.simple.pre=<b>";
+    solrUrl += "&hl.simple.post=</b>";
+    solrUrl += "&hl.fragsize=500";
+
+    // Pagination
+    const results_per_page = 20;
+    const p = parseInt(req.query.p) ? parseInt(req.query.p) : 0;
+    solrUrl += "&start=" + (p * results_per_page);
+    solrUrl += "&rows=" + results_per_page; // results per page
 
     request({
-        uri: solrUrl,
-        method: 'POST',
-        json: searchObject,
-    },function(error, response, body) {
+        uri: encodeURI(solrUrl),
+        method: 'GET',
+    }, function (error, response, body) {
         if (error || response.statusCode !== 200) {
-            res.render('result', {
-                query: q,
-                title: 'Query for: ' + q,
-                count: 0,
-                docs:[{
-                    url:[],
-                    title:["Not '"+q+"' found in any documents."],
-                    overview:[],
-                    content:[]
-                }],
-
-            });
-            return;
+            return renderNotFound(res, q);
         }
-        body.response.docs.forEach(function(value,index){
-            if(/^\s+$/.test(value.overview)){
-                delete body.response.docs[index]
-            }
-        })
-        if(body.response.numFound > 0 ){
+        let jsonBody = JSON.parse(body);
+        jsonBody.response.docs.forEach(function (value, index) {
+            jsonBody.response.docs[index].highlight = jsonBody.highlighting[jsonBody.response.docs[index].id].content[0];
+            // if (/^\s+$/.test(value.overview)) {
+            //     delete jsonBody.response.docs[index]
+            // }
+        });
+        if (jsonBody.response.numFound > 0) {
             res.render('result', {
                 query: q,
                 title: 'Query for: ' + q,
-                count: body.response.numFound,
-                docs: body.response.docs,
+                count: jsonBody.response.numFound,
+                docs: jsonBody.response.docs,
             });
-        }else{
-            res.render('result', {
-                query: q,
-                title: 'Query for: ' + q,
-                count: body.response.numFound,
-                docs:[{
-                    url:[],
-                    title:["Not '"+q+"' found in any documents."],
-                    overview:[],
-                    content:[]
-                }],
-            });
+        } else {
+            renderNotFound(res, q);
         }
     });
 });
 
-app.get('/',(req,res)=>{
+function renderNotFound(res, q) {
+    res.render('result', {
+        query: q,
+        title: 'Query for: ' + q,
+        count: 0,
+        docs: [{
+            url: [],
+            title: ["No '" + q + "' found in any documents."],
+            overview: [],
+            content: []
+        }],
+    });
+}
+
+app.get('/', (req, res) => {
     res.render('index', {
         title: 'Wiki search'
     });
 });
 
-app.listen(3000,()=>{
+app.listen(3000, () => {
     console.log("app is running on port 3000")
 });
