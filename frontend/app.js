@@ -50,10 +50,16 @@ app.get('/result', (req, res) => {
         }
         let jsonBody = JSON.parse(body);
         jsonBody.response.docs.forEach(function (value, index) {
-            jsonBody.response.docs[index].highlight = jsonBody.highlighting[jsonBody.response.docs[index].id].content[0];
-            // if (/^\s+$/.test(value.overview)) {
-            //     delete jsonBody.response.docs[index]
-            // }
+            let hlContent = jsonBody.highlighting[jsonBody.response.docs[index].id].content;
+            if (hlContent !== undefined && hlContent.length > 0) {
+                jsonBody.response.docs[index].highlight = hlContent[0];
+            } else {
+                if (/^\s+$/.test(value.overview)) {
+                    delete jsonBody.response.docs[index];
+                } else {
+                    jsonBody.response.docs[index].highlight = value.overview;
+                }
+            }
         });
         if (jsonBody.response.numFound > 0) {
             res.render('result', {
