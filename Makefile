@@ -67,4 +67,4 @@ network_remove:
 
 setup: install_python_module
 install_python_module:
-	pip install --user scrapy pymongo
+	pip3 install --user scrapy pymongo
