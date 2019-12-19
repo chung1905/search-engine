@@ -9,27 +9,30 @@ block body
     input(type='text', size=40, name='q', value=`${query}`, id='search-input')
     input(class='submit' type='submit' value='Search')
 
-    table(border='0' class='count-result')
-      tbody
-        tr
-          td
-            p= 'Found ' + count + ' result(s)'
-    table(border='0' class='list-result')
-      tbody
-        each doc in docs
-          if doc
-            tr
-              td
-                a(href=doc.url[0])
-                  b= doc.title
-                  br
-              td
-            tr
-              td(class='result-snippet')
-                p
-                  | !{doc.highlight}
-            tr
-              td(class='result-url')
-                span= doc.url
-                hr
+  include components/paginator.pug
 
+  table(border='0' class='count-result')
+    tbody
+      tr
+        td
+          p= 'Found ' + count + ' result(s)'
+  table(border='0' class='list-result')
+    tbody
+      each doc in docs
+        if doc
+          tr
+            td
+              a(href=doc.url[0])
+                b= doc.title
+                br
+            td
+          tr
+            td(class='result-snippet')
+              p
+                | !{doc.highlight}
+          tr
+            td(class='result-url')
+              span= doc.url
+              hr
+
+  include components/paginator.pug

@@ -40,6 +40,16 @@ app.get('/result', (req, res) => {
     const p = parseInt(req.query.p) ? parseInt(req.query.p) : 0;
     solrUrl += "&start=" + (p * results_per_page);
     solrUrl += "&rows=" + results_per_page; // results per page
+    let nextPageUrl, prevPageUrl;
+
+    if (/[?&]p=\d*/.test(req.url)) {
+        nextPageUrl = req.url.replace(/([?&])p=\d*/, '$1p=' + (p + 1));
+        if (p > 0) {
+            prevPageUrl = req.url.replace(/([?&])p=\d*/, '$1p=' + (p - 1));
+        }
+    } else {
+        nextPageUrl = req.url + '&p=' + (p + 1);k
+    }
 
     request({
         uri: encodeURI(solrUrl),
@@ -62,11 +72,17 @@ app.get('/result', (req, res) => {
             }
         });
         if (jsonBody.response.numFound > 0) {
+            const maxPage = jsonBody.response.numFound / results_per_page;
+            if (p + 1 > maxPage) {
+                nextPageUrl = false;
+            }
             res.render('result', {
                 query: q,
                 title: 'Query for: ' + q,
                 count: jsonBody.response.numFound,
                 docs: jsonBody.response.docs,
+                nextPageUrl,
+                prevPageUrl,
             });
         } else {
             renderNotFound(res, q);
