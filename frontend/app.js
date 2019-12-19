@@ -48,7 +48,7 @@ app.get('/result', (req, res) => {
             prevPageUrl = req.url.replace(/([?&])p=\d*/, '$1p=' + (p - 1));
         }
     } else {
-        nextPageUrl = req.url + '&p=' + (p + 1);k
+        nextPageUrl = req.url + '&p=' + (p + 1);
     }
 
     request({

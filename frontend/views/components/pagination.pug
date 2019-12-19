@@ -1,0 +1,23 @@
+mixin totalPage(pageUrls,currentPage)
+  if currentPage < 11
+    - var n = 1;
+  else
+    - var n = 10;
+  div(class='page-navigation')
+    nav(aria-label='Page navigation')
+        ul.pagination
+          li.page-item
+            a.page-link(href=pageUrls[0] aria-label='Previous')
+              span(aria-hidden='true') &laquo;
+              span.sr-only Previous
+          each url in pageUrls
+            if currentPage == n
+              li.page-item
+                a.page-link(id='current-page' ,href=url)=n++
+            else
+              li.page-item
+                a.page-link(href=url)=n++
+          li.page-item
+            a.page-link(href=pageUrls[10] aria-label='Next')
+              span(aria-hidden='true') &raquo;
+              span.sr-only Next
