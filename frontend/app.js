@@ -67,20 +67,20 @@ app.get('/result', (req, res) => {
                 jsonBody.response.docs[index].highlight = hlContent[0];
             } else {
                 if (/^\s+$/.test(value.overview)) {
-                    delete jsonBody.response.docs[index];
+                    // delete jsonBody.response.docs[index];
                 } else {
                     jsonBody.response.docs[index].highlight = value.overview;
                 }
-                if(!value.title || !value.overview || !value.url){
-                    delete body.response.docs[index]
-                }
+                // if(!value.title || !value.overview || !value.url){
+                //     delete jsonBody.response.docs[index]
+                // }
             }
         });
         if (jsonBody.response.numFound > 0) {
             const maxPage = jsonBody.response.numFound / results_per_page;
             var page        = req.query.p || 1,
 
-                perPage     = 10,
+                perPage     = 20,
 
                 totalPage   = jsonBody.response.numFound/perPage,
 
@@ -97,7 +97,14 @@ app.get('/result', (req, res) => {
             if((totalPage*10)%10 !== 0){
                 totalPage++;
             }
-            var pageUrls = generatePageUrls(page,q,baseUrl);
+            if(totalPage < 2){
+                var show = false;
+            }else{
+                var show = true;
+            }
+            var pageUrls = generatePageUrls(page,q,baseUrl,totalPage);
+            console.log(totalPage);
+            console.log(pageUrls);
             if (p + 1 > maxPage) {
                 nextPageUrl = false;
             }
@@ -109,7 +116,8 @@ app.get('/result', (req, res) => {
                 nextPageUrl,
                 prevPageUrl,
                 pageUrls:   pageUrls,
-                currentPage:page
+                currentPage:page,
+                show: show
             });
         } else {
             renderNotFound(res, q);
@@ -140,9 +148,14 @@ app.get('/', (req, res) => {
 app.listen(3000, () => {
     console.log("app is running on port 3000")
 });
-function generatePageUrls(page,query,baseUrl){
+function generatePageUrls(page,query,baseUrl,totalPage){
     var pageUrls = [];
-    if(page < 11){
+    if(totalPage < 20){
+        for(let i=0 ; i<totalPage ; i++){
+            var number = i+1;
+            pageUrls[i] = baseUrl+"?q="+query+"&p="+number;
+        }  
+    }else if(page < 11){
         for(let i=0 ; i<11 ; i++){
             var number = i+1;
             pageUrls[i] = baseUrl+"?q="+query+"&p="+number;
