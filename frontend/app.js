@@ -78,7 +78,7 @@ app.get('/result', (req, res) => {
         });
         if (jsonBody.response.numFound > 0) {
             const maxPage = jsonBody.response.numFound / results_per_page;
-            var page        = req.query.page || 1,
+            var page        = req.query.p || 1,
 
                 perPage     = 10,
 
@@ -145,12 +145,12 @@ function generatePageUrls(page,query,baseUrl){
     if(page < 11){
         for(let i=0 ; i<11 ; i++){
             var number = i+1;
-            pageUrls[i] = baseUrl+"?q="+query+"&page="+number;
+            pageUrls[i] = baseUrl+"?q="+query+"&p="+number;
         }
     }else{
         for(let i=9 ; i<20 ; i++){
             var number = i+1;
-            pageUrls[i-9] = baseUrl+"?q="+query+"&page="+number;
+            pageUrls[i-9] = baseUrl+"?q="+query+"&p="+number;
         }        
     }
     return pageUrls;
