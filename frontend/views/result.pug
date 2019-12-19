@@ -27,12 +27,13 @@ block body
                 br
             td
           tr
+            td
+              a.sub-url=doc.url[0]
+          tr
             td(class='result-snippet')
               p
                 | !{doc.highlight}
-          tr
-            td(class='result-url')
-              span= doc.url
               hr
 
-  include components/paginator.pug
+  include components/pagination
+  +totalPage(pageUrls,currentPage)
