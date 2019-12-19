@@ -89,6 +89,6 @@ ITEM_PIPELINES = {
 #HTTPCACHE_IGNORE_HTTP_CODES = []
 #HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
 
-MAXIMUM_PAGE = 10
+MAXIMUM_PAGE = 5000
 MONGO_URI = '127.0.0.1'
 MONGO_DATABASE = 'raw_search'
