@@ -3,6 +3,9 @@ DOCKER_SOLR_BIN = $(DOCKER_SOLR) /opt/solr/bin/solr
 DOCKER_SOLR_POST = $(DOCKER_SOLR) /opt/solr/bin/post
 SOLR_CORE_NAME = solr_core
 
+up:
+	docker-compose up -d
+
 solr_import:
 	$(DOCKER_SOLR_POST) -c $(SOLR_CORE_NAME) /var/crawler
 solr_core_create:

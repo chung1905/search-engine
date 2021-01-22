@@ -1,50 +1,54 @@
 # Search Engine
+
+## What is this?
+- A crawler ([scrapy](https://scrapy.org/)) which crawl data from
+  [Wikipedia](https://en.wikipedia.org/) (and [dantri](https://dantri.com/),
+  [vnexpress](https://vnexpress.com/))
+- Store crawl data to json file and mongodb
+- Import data to [Solr](https://lucene.apache.org/solr/)
+- Final, a frontend provide an interface to search data from Solr
+- Every service is packaged as Docker container 
+
 ## Requirements
 1. [Docker](https://www.docker.com/)
-2. [Make](https://www.gnu.org/software/make/)
-3. [nodejs](https://nodejs.org/en/) and [npm](https://www.npmjs.com/)
-4. [python](https://www.python.org/) and [pip](https://pypi.org/project/pip/)
+2. [Docker-compose](https://docs.docker.com/compose/)
+3. [Make](https://www.gnu.org/software/make/) (optional, usually pre-install on linux)
 
-## How to setup for the first time
-1. Mongodb
+## How to use
+### 1. Start and build all services
 ```
-make mongo_start
-```
-Mongodb interface at: http://localhost:8081/
-
-2. Install scrapy:
-```
-make setup
-```
-3. Crawl:
-```
-make crawl_to_json
-```
-4. Solr:
-```
-make solr_start solr_core_create solr_import
-```
-5. Frontend:
-```
-make npm_install npm_start
-```
-6. Go to http://localhost:3000/ and search
-
-## How to run
-1. Start solr, mongodb and frontend server:
-```
-make mongo_start solr_start solr_core_create solr_import npm_start
+docker-compose up -d
 ```
 
-## Crawl during run
-1. Crawl:
+### 2. See crawl process
 ```
-make crawl
+make log_crawler
 ```
-2. Import to solr
+Or see in `./crawler/data`
+
+### 3. Import crawled data to Solr:
 ```
-make solr_reimport
+make solr_import
 ```
+
+### 4. Start/Stop crawling:
+```
+make start_crawl
+```
+and
+```
+make stop_crawl
+```
+
+### 5. Search:
+See your search at: `http://<<frontend-container-ip>>:3000/`
+
+Get frontend container ip by command:
+```
+docker inspect -f '{{.Name}} - {{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $(docker ps -aq) | grep frontend
+```
+
+### 6. Done
 
 ## Known Issues:
 
