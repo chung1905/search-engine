@@ -1,5 +1,8 @@
 # Search Engine
 
+## Preview
+See [Media Storage](https://gitlab.com/teamhaianh-ginp14/search-engine/-/wikis/Media-Storage)
+
 ## What is this?
 - A crawler ([scrapy](https://scrapy.org/)) which crawl data from
   [Wikipedia](https://en.wikipedia.org/) (and [dantri](https://dantri.com/),
@@ -7,7 +10,8 @@
 - Store crawl data to json file and mongodb
 - Import data to [Solr](https://lucene.apache.org/solr/)
 - Final, a frontend provide an interface to search data from Solr
-- Every service is packaged as Docker container 
+  (the interface is inspired by [Duckduckgo Lite](https://lite.duckduckgo.com/lite))
+- Every service is packaged as Docker container
 
 ## Requirements
 1. [Docker](https://www.docker.com/)
@@ -51,4 +55,3 @@ docker inspect -f '{{.Name}} - {{range .NetworkSettings.Networks}}{{.IPAddress}}
 ### 6. Done
 
 ## Known Issues:
-
