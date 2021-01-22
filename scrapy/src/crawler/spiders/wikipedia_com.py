@@ -41,6 +41,7 @@ class WikipediaCom(scrapy.Spider):
                 yield response.follow(href, callback=self.parse)
 
     content_regex = re.compile(r"(<[^<>]+>|</\w+>|NaN)", re.MULTILINE)
+
     def parse_item(self, response):
         item = CrawlerItem()
         item['url'] = response.url

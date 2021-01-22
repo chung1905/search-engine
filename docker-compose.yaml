@@ -1,0 +1,40 @@
+version: '3'
+
+services:
+  frontend:
+    image: node:14-alpine
+    working_dir: /home/node/app
+    volumes:
+      - ./frontend/src:/home/node/app
+    command: "sh -c \"npm install && npm start\""
+    networks:
+      - solr
+  solr:
+    image: solr:8-slim
+    volumes:
+      - ./crawler/data:/var/crawler:ro
+      - solr:/var/solr
+    command:
+      - solr-precreate
+      - solr_core
+    networks:
+      - solr
+  scrapy:
+    build:
+      context: ./scrapy
+    volumes:
+      - ./scrapy/src:/usr/src/app:ro
+      - ./crawler/data:/usr/src/data
+    networks:
+      - mongo
+  mongo:
+    image: mongo:4.4
+    volumes:
+      - ./mongo/data:/data/db
+    networks:
+      - mongo
+volumes:
+  solr:
+networks:
+  mongo:
+  solr:

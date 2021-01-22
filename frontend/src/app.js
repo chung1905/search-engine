@@ -4,11 +4,10 @@ const app = express();
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const request = require('request');
-const http          = require('http');
-const url           = require('url') ;
+const url = require('url');
 
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(__dirname + '/view'));
 app.set('view engine', 'pug');
 
@@ -20,8 +19,8 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 app.get('/result', (req, res) => {
-    const coreName = 'solr_first_core';
-    let solrUrl = 'http://localhost:8983/solr/' + coreName + '/select?';
+    const coreName = 'solr_core';
+    let solrUrl = 'http://solr:8983/solr/' + coreName + '/select?';
 
     const q = req.query.q;
     console.log(req.query);
@@ -78,31 +77,24 @@ app.get('/result', (req, res) => {
         });
         if (jsonBody.response.numFound > 0) {
             const maxPage = jsonBody.response.numFound / results_per_page;
-            var page        = req.query.p || 1,
+            var page = req.query.p || 1,
+                perPage = 20,
+                totalPage = jsonBody.response.numFound / perPage,
+                start = (page - 1) * perPage,
+                end = page * perPage,
+                hostname = req.headers.host,
+                pathname = url.parse(req.url).pathname,
+                baseUrl = 'http://' + hostname + pathname;
 
-                perPage     = 20,
-
-                totalPage   = jsonBody.response.numFound/perPage,
-
-                start       = (page - 1) * perPage,
-
-                end         = page * perPage,
-
-                hostname    = req.headers.host,
-
-                pathname    = url.parse(req.url).pathname,
-                
-                baseUrl     = 'http://' + hostname + pathname;
-
-            if((totalPage*10)%10 !== 0){
+            if ((totalPage * 10) % 10 !== 0) {
                 totalPage++;
             }
-            if(totalPage < 2){
+            if (totalPage < 2) {
                 var show = false;
-            }else{
+            } else {
                 var show = true;
             }
-            var pageUrls = generatePageUrls(page,q,baseUrl,totalPage);
+            var pageUrls = generatePageUrls(page, q, baseUrl, totalPage);
             console.log(totalPage);
             console.log(pageUrls);
             if (p + 1 > maxPage) {
@@ -115,8 +107,8 @@ app.get('/result', (req, res) => {
                 docs: jsonBody.response.docs,
                 nextPageUrl,
                 prevPageUrl,
-                pageUrls:   pageUrls,
-                currentPage:page,
+                pageUrls: pageUrls,
+                currentPage: page,
                 show: show
             });
         } else {
@@ -148,23 +140,24 @@ app.get('/', (req, res) => {
 app.listen(3000, () => {
     console.log("app is running on port 3000")
 });
-function generatePageUrls(page,query,baseUrl,totalPage){
+
+function generatePageUrls(page, query, baseUrl, totalPage) {
     var pageUrls = [];
-    if(totalPage < 20){
-        for(let i=0 ; i<totalPage ; i++){
-            var number = i+1;
-            pageUrls[i] = baseUrl+"?q="+query+"&p="+number;
-        }  
-    }else if(page < 11){
-        for(let i=0 ; i<11 ; i++){
-            var number = i+1;
-            pageUrls[i] = baseUrl+"?q="+query+"&p="+number;
+    if (totalPage < 20) {
+        for (let i = 0; i < totalPage; i++) {
+            var number = i + 1;
+            pageUrls[i] = baseUrl + "?q=" + query + "&p=" + number;
         }
-    }else{
-        for(let i=9 ; i<20 ; i++){
-            var number = i+1;
-            pageUrls[i-9] = baseUrl+"?q="+query+"&p="+number;
-        }        
+    } else if (page < 11) {
+        for (let i = 0; i < 11; i++) {
+            var number = i + 1;
+            pageUrls[i] = baseUrl + "?q=" + query + "&p=" + number;
+        }
+    } else {
+        for (let i = 9; i < 20; i++) {
+            var number = i + 1;
+            pageUrls[i - 9] = baseUrl + "?q=" + query + "&p=" + number;
+        }
     }
     return pageUrls;
 }
